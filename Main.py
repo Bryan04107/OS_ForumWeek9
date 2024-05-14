@@ -22,45 +22,43 @@ def fcfs(requests, initial_head, sorted):
 
 
 def scan(requests, initial_head, sorted):
-    direction = -1
     scanMovement = 0
+    head = initial_head
 
     if sorted == True:
         requests.sort()
 
     while requests:
-        while initial_head in requests:
-            requests.remove(initial_head)
-        scanMovement += 1
+        next_request = next((r for r in requests if r >= head), None)
+        if next_request:
+            scanMovement += next_request - head
+            head = next_request
+            requests.remove(next_request)
+        else:
+            scanMovement += maxRandom - head
+            head = 0
 
-        if initial_head == minRandom or initial_head == maxRandom:
-
-            direction *= -1
-
-        initial_head += direction
-        
-    return scanMovement - 1
+    return scanMovement
 
 
 
 def cscan(requests, initial_head, sorted):
-    direction = -1
     cscanMovement = 0
+    head = initial_head
 
     if sorted == True:
         requests.sort()
 
     while requests:
-        while initial_head in requests:
-            requests.remove(initial_head)
-        cscanMovement += 1
+        next_request = next((r for r in requests if r >= head), None)
+        if next_request:
+            cscanMovement += next_request - head
+            head = next_request
+            requests.remove(next_request)
+        else:
+            cscanMovement += maxRandom - head + maxRandom
+            head = 0
 
-        if initial_head == minRandom:
-            initial_head = maxRandom -1
-            cscanMovement += 4999
-
-        initial_head += direction
-        
     return cscanMovement
 
 
